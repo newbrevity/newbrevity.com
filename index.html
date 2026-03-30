@@ -664,9 +664,14 @@
   <div class="newsletter-layout">
     <div class="newsletter-desc">
       <p>A weekly investing newsletter for people who want real financial thinking from someone with skin in the game. CANSLIM framework. Horizontal levels. No hype. No tips. Just the process.</p>
-      <div style="margin-top: 24px;">
-        <a href="https://persistcompound.substack.com" class="btn-primary" style="display: inline-block;">Read on Substack</a>
-      </div>
+      <form class="newsletter-form" style="margin-top: 24px;" onsubmit="handleSubscribe(event)">
+        <input type="email" name="email" placeholder="Your email address" required>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+          <button type="submit" class="btn-primary" id="subscribe-btn">Subscribe</button>
+          <a href="https://persistcompound.substack.com" class="btn-outline" style="display: inline-block;">Read on Substack</a>
+        </div>
+        <p id="subscribe-msg" style="font-size: 14px; display: none;"></p>
+      </form>
     </div>
     <div style="display: flex; flex-direction: column; gap: 20px;">
       <div class="pillar-item" style="border-left-color: var(--accent);">
@@ -725,6 +730,49 @@
     <span class="footer-copy">&copy; 2026 New Brevity Media LLC. All rights reserved.</span>
   </div>
 </footer>
+
+<script>
+function handleSubscribe(e) {
+  e.preventDefault();
+  var form = e.target;
+  var email = form.email.value;
+  var btn = document.getElementById('subscribe-btn');
+  var msg = document.getElementById('subscribe-msg');
+
+  btn.textContent = 'Subscribing...';
+  btn.disabled = true;
+
+  fetch('https://persistcompound.substack.com/api/v1/free', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      email: email,
+      first_url: 'https://newbrevity.com',
+      first_referrer: 'https://newbrevity.com'
+    })
+  })
+  .then(function(res) {
+    if (res.ok || res.status === 400) {
+      msg.textContent = 'Check your inbox to confirm your subscription.';
+      msg.style.color = '#4FC3F7';
+      msg.style.display = 'block';
+      form.email.value = '';
+    } else {
+      throw new Error('Subscribe failed');
+    }
+  })
+  .catch(function() {
+    window.open('https://persistcompound.substack.com/subscribe?simple=true&email=' + encodeURIComponent(email), '_blank');
+    msg.textContent = 'Opened Substack in a new tab to complete signup.';
+    msg.style.color = '#4FC3F7';
+    msg.style.display = 'block';
+  })
+  .finally(function() {
+    btn.textContent = 'Subscribe';
+    btn.disabled = false;
+  });
+}
+</script>
 
 </body>
 </html>
