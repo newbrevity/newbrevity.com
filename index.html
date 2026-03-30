@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Brevity — Persist. Compound. Make it Count.</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+<style>
+  /* ── Reset ── */
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* ── Brand Tokens ── */
+  :root {
+    --dark: #2D3436;
+    --dark-deep: #1a1e20;
+    --light: #FAFAF5;
+    --accent: #4FC3F7;
+    --white: #FFFFFF;
+    --gray: #8B949E;
+    --gray-light: #B0B8C1;
+    --border: #3D4448;
+    --font: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  }
+
+  html { font-size: 16px; scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font);
+    background: var(--dark);
+    color: var(--white);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── Navigation ── */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(45, 52, 54, 0.9);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(61, 68, 72, 0.5);
+    transition: transform 0.3s ease;
+  }
+
+  .nav-logo {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--white);
+    text-decoration: none;
+  }
+
+  .nav-logo .accent { color: var(--accent); }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--gray-light);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  .nav-cta {
+    padding: 10px 24px;
+    background: var(--accent);
+    color: var(--dark);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: opacity 0.2s;
+  }
+
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* ── Hero ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 120px 60px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    right: -200px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(79, 195, 247, 0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-pillar {
+    display: inline-block;
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    border: 1px solid var(--accent);
+    padding: 6px 16px;
+    border-radius: 4px;
+    margin-bottom: 40px;
+    width: fit-content;
+  }
+
+  .hero-headline {
+    font-size: clamp(48px, 8vw, 120px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -3px;
+    margin-bottom: 32px;
+    max-width: 900px;
+  }
+
+  .hero-headline .accent { color: var(--accent); }
+
+  .hero-sub {
+    font-size: clamp(18px, 2vw, 24px);
+    font-weight: 400;
+    color: var(--gray);
+    line-height: 1.5;
+    max-width: 600px;
+    margin-bottom: 48px;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    padding: 14px 32px;
+    background: var(--accent);
+    color: var(--dark);
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: opacity 0.2s;
+  }
+
+  .btn-primary:hover { opacity: 0.85; }
+
+  .btn-outline {
+    padding: 14px 32px;
+    background: transparent;
+    color: var(--white);
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .hero-signoff {
+    position: absolute;
+    bottom: 40px;
+    left: 60px;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--gray);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ── Section shared ── */
+  section { padding: 100px 60px; }
+
+  .section-label {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+
+  .section-heading {
+    font-size: clamp(32px, 4vw, 56px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -2px;
+    margin-bottom: 20px;
+  }
+
+  .section-heading .accent { color: var(--accent); }
+
+  /* ── Latest Content ── */
+  .content-section {
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+  }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 48px;
+  }
+
+  .content-card {
+    background: var(--dark-deep);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 32px;
+    transition: border-color 0.2s, transform 0.2s;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .content-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+  }
+
+  .card-pillar {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+
+  .card-title {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--white);
+    line-height: 1.2;
+    letter-spacing: -0.5px;
+  }
+
+  .card-hook {
+    font-size: 15px;
+    color: var(--gray);
+    line-height: 1.5;
+  }
+
+  .card-date {
+    font-size: 12px;
+    color: var(--gray);
+    letter-spacing: 1px;
+    margin-top: auto;
+  }
+
+  /* ── About Band (Light) ── */
+  .about-section {
+    background: var(--light);
+    color: var(--dark);
+  }
+
+  .about-section .section-label {
+    color: var(--accent);
+  }
+
+  .about-section .section-heading {
+    color: var(--dark);
+  }
+
+  .about-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    margin-top: 48px;
+    align-items: start;
+  }
+
+  .about-text {
+    font-size: 18px;
+    color: #57534E;
+    line-height: 1.7;
+  }
+
+  .about-text p { margin-bottom: 20px; }
+
+  .about-pillars {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .pillar-item {
+    border-left: 3px solid var(--accent);
+    padding-left: 20px;
+  }
+
+  .pillar-name {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--dark);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .pillar-desc {
+    font-size: 15px;
+    color: #57534E;
+    line-height: 1.5;
+  }
+
+  /* ── Quote Band ── */
+  .quote-section {
+    background: var(--dark-deep);
+    text-align: center;
+    padding: 120px 60px;
+  }
+
+  .quote-text {
+    font-size: clamp(28px, 4vw, 48px);
+    font-weight: 300;
+    line-height: 1.3;
+    letter-spacing: -1px;
+    max-width: 800px;
+    margin: 0 auto 24px;
+    color: var(--white);
+  }
+
+  .quote-text .accent { color: var(--accent); }
+
+  .quote-attr {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ── Newsletter Signup ── */
+  .newsletter-section {
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+  }
+
+  .newsletter-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    margin-top: 48px;
+  }
+
+  .newsletter-desc {
+    font-size: 18px;
+    color: var(--gray);
+    line-height: 1.7;
+  }
+
+  .newsletter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .newsletter-form input {
+    padding: 16px 20px;
+    background: var(--dark-deep);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--white);
+    font-family: var(--font);
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .newsletter-form input:focus {
+    border-color: var(--accent);
+  }
+
+  .newsletter-form input::placeholder {
+    color: var(--gray);
+  }
+
+  /* ── Footer ── */
+  footer {
+    background: var(--dark-deep);
+    padding: 60px;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    margin-bottom: 48px;
+  }
+
+  .footer-brand {
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+
+  .footer-brand .accent { color: var(--accent); }
+
+  .footer-links {
+    display: flex;
+    gap: 48px;
+  }
+
+  .footer-col h4 {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-col a {
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+
+  .footer-col a:hover { color: var(--white); }
+
+  .footer-social {
+    display: flex;
+    gap: 20px;
+  }
+
+  .footer-social a {
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .footer-social a:hover { color: var(--accent); }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+
+  .footer-signoff {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--gray);
+    letter-spacing: 1.5px;
+  }
+
+  .footer-copy {
+    font-size: 12px;
+    color: var(--gray);
+  }
+
+  /* ── Mobile ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+
+    .hero { padding: 100px 24px 60px; }
+    .hero-signoff { left: 24px; bottom: 24px; }
+
+    section { padding: 60px 24px; }
+
+    .content-grid { grid-template-columns: 1fr; }
+
+    .about-layout { grid-template-columns: 1fr; gap: 40px; }
+
+    .quote-section { padding: 80px 24px; }
+
+    .newsletter-layout { grid-template-columns: 1fr; gap: 40px; }
+
+    .footer-top { flex-direction: column; gap: 40px; }
+    .footer-links { flex-direction: column; gap: 32px; }
+    .footer-bottom { flex-direction: column; gap: 16px; text-align: center; }
+
+    footer { padding: 40px 24px; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-headline { letter-spacing: -1px; }
+    .hero-ctas { flex-direction: column; }
+    .hero-ctas a, .hero-ctas button { width: 100%; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <a href="#" class="nav-logo">NEW <span class="accent">BREVITY</span></a>
+  <ul class="nav-links">
+    <li><a href="#content">Content</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#investing">Investing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#newsletter" class="nav-cta">Subscribe</a>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-pillar">The Practitioner's View</div>
+  <h1 class="hero-headline">
+    Persist.<br>
+    <span class="accent">Compound.</span><br>
+    Make it count.
+  </h1>
+  <p class="hero-sub">
+    Manufacturing leadership from inside the arena. Not theory. Not consulting. What actually works when the floor is short, the customer is angry, and the margin is thin.
+  </p>
+  <div class="hero-ctas">
+    <a href="https://www.linkedin.com/in/newbrevity/" class="btn-primary">Read on LinkedIn</a>
+    <a href="https://persistcompound.substack.com" class="btn-outline">Subscribe on Substack</a>
+  </div>
+  <div class="hero-signoff">Persist. Compound. Make it Count.</div>
+</section>
+
+<!-- Latest Content -->
+<section class="content-section" id="content">
+  <div class="section-label">Latest</div>
+  <h2 class="section-heading">From the <span class="accent">floor</span></h2>
+  <div class="content-grid">
+
+    <div class="content-card">
+      <span class="card-pillar">Manufacturing Leadership</span>
+      <h3 class="card-title">The Feedback Nobody Wants to Give</h3>
+      <p class="card-hook">Just tell them: I appreciate you. To their face. With enough specificity that it lands.</p>
+      <span class="card-date">April 9, 2026</span>
+    </div>
+
+    <div class="content-card">
+      <span class="card-pillar">Lean Operating Systems</span>
+      <h3 class="card-title">The Org Chart Lies to You Every Day</h3>
+      <p class="card-hook">The real power structure is invisible. It runs through the people who actually know how things work.</p>
+      <span class="card-date">April 3, 2026</span>
+    </div>
+
+    <div class="content-card">
+      <span class="card-pillar">Margin as Operating Behavior</span>
+      <h3 class="card-title">Values Are Verbs, Not Posters</h3>
+      <p class="card-hook">Your values live in what you tolerate. Everything else is decoration.</p>
+      <span class="card-date">April 1, 2026</span>
+    </div>
+
+    <div class="content-card">
+      <span class="card-pillar">Manufacturing Leadership</span>
+      <h3 class="card-title">When Your Peer Gets Promoted Over You</h3>
+      <p class="card-hook">The instinct is to compete. The move is to make them successful. Watch what happens next.</p>
+      <span class="card-date">April 4, 2026</span>
+    </div>
+
+    <div class="content-card">
+      <span class="card-pillar">Manufacturing Leadership</span>
+      <h3 class="card-title">Burn the Boats</h3>
+      <p class="card-hook">You don't need a backup plan. You need a reason to go all in.</p>
+      <span class="card-date">April 14, 2026</span>
+    </div>
+
+    <div class="content-card">
+      <span class="card-pillar">Manufacturing Leadership</span>
+      <h3 class="card-title">Your Kids Are Watching</h3>
+      <p class="card-hook">They don't remember the advice. They remember what you did when it was hard.</p>
+      <span class="card-date">April 2, 2026</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- About (Light Band) -->
+<section class="about-section" id="about">
+  <div class="section-label">About</div>
+  <h2 class="section-heading" style="color: var(--dark);">In the arena,<br>not the <span class="accent">stands</span></h2>
+  <div class="about-layout">
+    <div class="about-text">
+      <p>Stephen Williams. SVP of Manufacturing. Australian transplant in Chicago. Running plants, building teams, and writing about what actually works when the floor is short and the margin is thin.</p>
+      <p>New Brevity exists because most leadership content is written by people who haven't run a P&L in years. This is different. Every post comes from the week I just lived ... not a textbook I just read.</p>
+      <p>If you lead people who make things, this is for you.</p>
+    </div>
+    <div class="about-pillars">
+      <div class="pillar-item">
+        <div class="pillar-name">Manufacturing Leadership</div>
+        <p class="pillar-desc">Running plants, building teams, making the hard calls that keep the operation moving.</p>
+      </div>
+      <div class="pillar-item">
+        <div class="pillar-name">Lean Operating Systems</div>
+        <p class="pillar-desc">Not the posters on the wall. The real systems that compound when you stay disciplined.</p>
+      </div>
+      <div class="pillar-item">
+        <div class="pillar-name">Margin as Operating Behavior</div>
+        <p class="pillar-desc">Margin isn't a finance problem. It's an operating behavior. Every decision either builds it or bleeds it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Quote Band -->
+<section class="quote-section">
+  <p class="quote-text">
+    Execution beats <span class="accent">ideas</span>. Character matters more than credentials. The P&L is the scorecard.
+  </p>
+  <span class="quote-attr">Stephen Williams</span>
+</section>
+
+<!-- Persist & Compound -->
+<section class="newsletter-section" id="investing">
+  <div class="section-label">Investing Newsletter</div>
+  <h2 class="section-heading">Persist & <span class="accent">Compound</span></h2>
+  <div class="newsletter-layout">
+    <div class="newsletter-desc">
+      <p>A weekly investing newsletter for people who want real financial thinking from someone with skin in the game. CANSLIM framework. Horizontal levels. No hype. No tips. Just the process.</p>
+      <div style="margin-top: 24px;">
+        <a href="https://persistcompound.substack.com" class="btn-primary" style="display: inline-block;">Read on Substack</a>
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 20px;">
+      <div class="pillar-item" style="border-left-color: var(--accent);">
+        <div style="font-size: 14px; font-weight: 800; color: var(--white); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px;">CANSLIM Framework</div>
+        <p style="font-size: 15px; color: var(--gray); line-height: 1.5;">Data first, hypothesis second, action third. Every trade has a thesis and a stop.</p>
+      </div>
+      <div class="pillar-item" style="border-left-color: var(--accent);">
+        <div style="font-size: 14px; font-weight: 800; color: var(--white); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px;">Skin in the Game</div>
+        <p style="font-size: 15px; color: var(--gray); line-height: 1.5;">Real positions. Real money. No paper trading, no hypothetical portfolios.</p>
+      </div>
+      <div class="pillar-item" style="border-left-color: var(--accent);">
+        <div style="font-size: 14px; font-weight: 800; color: var(--white); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px;">Weekly Process</div>
+        <p style="font-size: 15px; color: var(--gray); line-height: 1.5;">Pipeline review, pattern recognition, position management. The discipline compounds.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer id="contact">
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand">NEW <span class="accent">BREVITY</span></div>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="#">From the Floor</a></li>
+          <li><a href="#">What I Got Wrong</a></li>
+          <li><a href="#">Framework Cards</a></li>
+          <li><a href="#">Building in Public</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://www.linkedin.com/in/newbrevity/">LinkedIn</a></li>
+          <li><a href="https://persistcompound.substack.com">Substack</a></li>
+          <li><a href="#">X</a></li>
+          <li><a href="#">Pinterest</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="#">Privacy</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-signoff">Persist. Compound. Make it Count.</span>
+    <span class="footer-copy">&copy; 2026 New Brevity Media LLC. All rights reserved.</span>
+  </div>
+</footer>
+
+</body>
+</html>
